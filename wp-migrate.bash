@@ -27,7 +27,7 @@ cd ${PWD}
 
 #export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 WP_POD=$(kubectl get pods -n web-${PROFILE} --no-headers -o custom-columns=":metadata.name" | grep wordpress)
-DB_POD=web-${PROFILE}-production-mariadb-0
+DB_POD=web-${PROFILE}-production-mysql-0
 NS=web-${PROFILE}
 
 echo "Copying file [${TAR_NAME} ] into pod [${WP_POD}]..."
