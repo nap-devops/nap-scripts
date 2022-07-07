@@ -7,7 +7,8 @@ fi
 
 PWD=$(pwd)
 PROFILE=$1
-TAR_NAME="${PWD}/wp-content.original.tar"
+TAR_FILE=wp-content.original.tar
+TAR_NAME="${PWD}/${TAR_FILE}"
 DUMPED_FILE="${PWD}/${PROFILE}.dump.sql"
 
 set -o allexport; source ".env-${PROFILE}.cfg"; set +o allexport
@@ -28,5 +29,11 @@ WP_POD=$(kubectl get pods -n web-${PROFILE} --no-headers -o custom-columns=":met
 DB_POD=web-${PROFILE}-production-mariadb-0
 NS=web-${PROFILE}
 
+echo "Copying file [${TAR_NAME} ] into pod [${WP_POD}]..."
 kubectl cp ${TAR_NAME} ${NS}/${WP_POD}:/bitnami/wordpress
+
+echo "Copying file [${DUMPED_FILE}] into pod [${DB_POD}]..."
 kubectl cp ${DUMPED_FILE} ${NS}/${DB_POD}:/tmp
+
+echo "Extracting file [${TAR_FILE}] in pod [${WP_POD}]..."
+kubectl exec -it -n ${NS} ${WP_POD} -- -- /bin/bash -c "cd /bitnami/wordpress; touch migrate.txt; tar -xvf ${TAR_FILE}"
