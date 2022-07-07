@@ -15,6 +15,7 @@ DUMPED_FILE="${PWD}/${DUMPED_NAME}"
 set -o allexport; source ".env-${PROFILE}.cfg"; set +o allexport
 set -o allexport; source "configs/${PROFILE}.cfg"; set +o allexport
 
+# TODO : Remove warning output to the first line
 echo "Dumping from [${DB_CONTAINER_NAME}]..."
 sudo docker exec -it ${DB_CONTAINER_NAME} \
     mysqldump -u root --password=${DB_PASSWORD} wordpress > ${DUMPED_FILE}
