@@ -5,11 +5,14 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
+PWD=$(pwd)
 PROFILE=$1
-TAR_NAME=wp-content.old.tar
+TAR_NAME="${PWD}/wp-content.original.tar"
 
 set -o allexport; source ".env-${PROFILE}.cfg"; set +o allexport
 set -o allexport; source "configs/${PROFILE}.cfg"; set +o allexport
 
 #Copy wp-content from original container
-sudo tar -cvf ${TAR_NAME} ${APP_PATH}/wp-content
+cd ${APP_PATH}
+sudo tar -cvf ${TAR_NAME} wp-content
+cd ${PWD}
