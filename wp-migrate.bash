@@ -36,4 +36,4 @@ echo "Copying file [${DUMPED_FILE}] into pod [${DB_POD}]..."
 kubectl cp ${DUMPED_FILE} ${NS}/${DB_POD}:/tmp
 
 echo "Extracting file [${TAR_FILE}] in pod [${WP_POD}]..."
-kubectl exec -it -n ${NS} ${WP_POD} -- -- /bin/bash -c "cd /bitnami/wordpress; touch migrate.txt; tar -xvf ${TAR_FILE}"
+kubectl exec -it -n ${NS} ${WP_POD} -- /bin/bash -c "cd /bitnami/wordpress; touch migrate.txt; tar -xvf ${TAR_FILE}"
