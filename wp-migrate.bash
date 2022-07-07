@@ -15,8 +15,8 @@ set -o allexport; source "configs/${PROFILE}.cfg"; set +o allexport
 
 #Tar wp-content from original container
 cd ${APP_PATH}
-sudo tar -cvf ${TAR_NAME} wp-content
+#sudo tar -cvf ${TAR_NAME} wp-content
 cd ${PWD}
 
-sudo docker exec -it wp-${DB_CONTAINER_NAME} sudo docker exec -it ${DB_CONTAINER_NAME} \
+sudo docker exec -it ${DB_CONTAINER_NAME} \
     mysqldump -u root --password=${DB_PASSWORD} wordpress > ${DUMPED_FILE}
