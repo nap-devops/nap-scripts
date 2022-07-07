@@ -20,5 +20,13 @@ sudo docker exec -it ${DB_CONTAINER_NAME} \
 #Tar wp-content from original container
 echo "Packing wp-content from [${APP_PATH}]..."
 cd ${APP_PATH}
-sudo tar -cvf ${TAR_NAME} wp-content
+#sudo tar -cvf ${TAR_NAME} wp-content
 cd ${PWD}
+
+#export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+WP_POD=$(kubectl get pods -n web-${PROFILE} --no-headers -o custom-columns=":metadata.name" | grep wordpress)
+DB_POD=web-${PROFILE}-production-mariadb-0
+NS=web-${PROFILE}
+
+kubectl cp ${TAR_NAME} ${NS}/${WP_POD}:/bitnami/wordpress
+kubectl cp ${DUMPED_FILE} ${NS}/${DB_POD}:/tmp
