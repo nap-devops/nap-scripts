@@ -17,13 +17,13 @@ set -o allexport; source "configs/${PROFILE}.cfg"; set +o allexport
 
 # TODO : Remove warning output to the first line
 echo "Dumping from [${DB_CONTAINER_NAME}]..."
-sudo docker exec -it ${DB_CONTAINER_NAME} \
-    mysqldump -u root --password=${DB_PASSWORD} wordpress > ${DUMPED_FILE}
+#sudo docker exec -it ${DB_CONTAINER_NAME} \
+#    mysqldump -u root --password=${DB_PASSWORD} wordpress > ${DUMPED_FILE}
 
 #Tar wp-content from original container
 echo "Packing wp-content from [${APP_PATH}]..."
 cd ${APP_PATH}
-sudo tar -cvf ${TAR_NAME} wp-content
+#sudo tar -cvf ${TAR_NAME} wp-content
 cd ${PWD}
 
 #export USE_GKE_GCLOUD_AUTH_PLUGIN=True
