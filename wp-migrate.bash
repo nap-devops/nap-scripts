@@ -18,7 +18,7 @@ set -o allexport; source "configs/${PROFILE}.cfg"; set +o allexport
 # TODO : Remove warning output to the first line
 echo "Dumping from [${DB_CONTAINER_NAME}]..."
 sudo docker exec -it ${DB_CONTAINER_NAME} \
-    mysqldump --silent -u root --password=${DB_PASSWORD} wordpress 2>&1 | grep -v "Using a password on the command line interface" > ${DUMPED_FILE}
+    mysqldump -u root --password=${DB_PASSWORD} wordpress 2>&1 | grep -v "Using a password on the command line interface" > ${DUMPED_FILE}
 
 #Tar wp-content from original container
 echo "Packing wp-content from [${APP_PATH}]..."
