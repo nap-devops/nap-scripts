@@ -17,8 +17,8 @@ set -o allexport; source "configs/${PROFILE}.cfg"; set +o allexport
 
 # TODO : Remove warning output to the first line
 echo "Dumping from [${DB_CONTAINER_NAME}]..."
-#sudo docker exec -it ${DB_CONTAINER_NAME} \
-#    mysqldump -u root --password=${DB_PASSWORD} wordpress > ${DUMPED_FILE}
+sudo docker exec -it ${DB_CONTAINER_NAME} \
+    mysqldump --silent -u root --password=${DB_PASSWORD} wordpress > ${DUMPED_FILE}
 
 #Tar wp-content from original container
 echo "Packing wp-content from [${APP_PATH}]..."
@@ -41,4 +41,4 @@ echo "Extracting file [${TAR_FILE}] in pod [${WP_POD}]..."
 kubectl exec -it -n ${NS} ${WP_POD} -- /bin/bash -c "cd /bitnami/wordpress; touch migrate.txt; tar -xvf ${TAR_FILE}"
 
 echo "Importing SQL [${DUMPED_NAME}] in pod [${DB_POD}]..."
-kubectl exec -it -n ${NS} ${DB_POD} -- /bin/bash -c "cd /tmp; mysql -u root --password=${TARGET_DB_PASSWORD} wordpress < ${DUMPED_NAME}"
+kubectl exec -it -n ${NS} ${DB_POD} -- /bin/bash -c "cd /tmp; mysql --silent -u root --password=${TARGET_DB_PASSWORD} wordpress < ${DUMPED_NAME}"
