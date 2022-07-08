@@ -15,7 +15,6 @@ DUMPED_FILE="${PWD}/${DUMPED_NAME}"
 set -o allexport; source ".env-${PROFILE}.cfg"; set +o allexport
 set -o allexport; source "configs/${PROFILE}.cfg"; set +o allexport
 
-# TODO : Remove warning output to the first line
 echo "Dumping from [${DB_CONTAINER_NAME}]..."
 sudo docker exec -it ${DB_CONTAINER_NAME} \
     mysqldump -u root --password=${DB_PASSWORD} wordpress 2>&1 | grep -v "Using a password on the command line interface" > ${DUMPED_FILE}
@@ -23,7 +22,7 @@ sudo docker exec -it ${DB_CONTAINER_NAME} \
 #Tar wp-content from original container
 echo "Packing wp-content from [${APP_PATH}]..."
 cd ${APP_PATH}
-#sudo tar -cvf ${TAR_NAME} wp-content
+sudo tar -cvf ${TAR_NAME} wp-content
 cd ${PWD}
 
 #export USE_GKE_GCLOUD_AUTH_PLUGIN=True
